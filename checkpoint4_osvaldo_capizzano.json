@@ -1295,11 +1295,9 @@
     {
       "parameters": {
         "resource": "contact",
-        "operation": "update",
-        "contactId": "={{ $json.id }}",
-        "additionalFields": {
-          "lifecyclestage": "lead"
-        }
+        "operation": "upsert",
+        "email": "={{ $json.email }}",
+        "additionalFields": {}
       },
       "id": "9d00d7b8-5d59-4704-a020-9dc51dfa8697",
       "name": "HubSpot - Update contacto",
@@ -1313,12 +1311,9 @@
     {
       "parameters": {
         "resource": "contact",
-        "operation": "create",
-        "email": "={{ $('Set - Limpieza y validacion de payload').item.json.email }}",
-        "additionalFields": {
-          "firstName": "={{ $('Set - Limpieza y validacion de payload').item.json.name }}",
-          "lifecyclestage": "lead"
-        }
+        "operation": "upsert",
+        "email": "={{ $json.email }}",
+        "additionalFields": {}
       },
       "id": "6b0dba8e-c143-493c-abb4-4c01ea4e9208",
       "name": "HubSpot - Create contacto",
@@ -1333,12 +1328,12 @@
       "parameters": {
         "resource": "draft",
         "operation": "create",
-        "sendTo": "={{ $('Set - Limpieza y validacion de payload').item.json.email }}",
         "subject": "=Re: {{ $('Set - Limpieza y validacion de payload').item.json.subject }}",
         "emailType": "text",
         "message": "={{ $('Set - Limpieza y validacion de payload').item.json.draft_body }}",
         "options": {
-          "appendAttribution": false
+          "appendAttribution": false,
+          "sendTo": "={{ $('Set - Limpieza y validacion de payload').item.json.email }}"
         }
       },
       "id": "43026707-a62d-4c09-91c5-6f027d78040a",
@@ -1403,8 +1398,8 @@
         "select": "channel",
         "channelId": {
           "__rl": true,
-          "value": "CONECTAR_CANAL_OPERACIONES",
-          "mode": "id"
+          "value": "todo-tpfinal",
+          "mode": "name"
         },
         "text": "=Nuevo borrador pendiente de aprobacion humana\nCliente: {{ $json.customer_email }}\nAsunto: {{ $json.subject }}\nResumen: {{ $json.summary }}",
         "otherOptions": {
